@@ -71,7 +71,16 @@
         return cells[y][x].alive;
     }
 
-    function updateGenerationAndPrint(cell) {
+    function updateGeneration(cell) {
+        for (let i = aliveTrackLength - 1; i >= 1; --i) {
+            cell.aliveTrack[i] = cell.aliveTrack[i - 1];
+        }
+        cell.aliveTrack[0] = cell.alive;
+        cell.alive = cell.nextGeneration;
+        cell.nextGeneration = null;
+    }
+
+    function print(cell) {
         ctx.fillStyle = 'white';
         ctx.fillRect(cell.x * scale, cell.y * scale, scale, scale);
         if (cell.alive) {
@@ -96,13 +105,6 @@
         ctx.beginPath();
         ctx.arc(cell.x * scale, cell.y * scale, scale / 2, 0, 2 * Math.PI);
         ctx.fill();
-
-        for (let i = aliveTrackLength - 1; i >= 1; --i) {
-            cell.aliveTrack[i] = cell.aliveTrack[i - 1];
-        }
-        cell.aliveTrack[0] = cell.alive;
-        cell.alive = cell.nextGeneration;
-        cell.nextGeneration = null;
     }
 
     function checkCellConditions(cell) {
@@ -133,7 +135,8 @@
 
     function iterate() {
         cells.forEach(row => row.forEach(cell => checkCellConditions(cell)));
-        cells.forEach(row => row.forEach(cell => updateGenerationAndPrint(cell)));
+        cells.forEach(row => row.forEach(cell => print(cell)));
+        cells.forEach(row => row.forEach(cell => updateGeneration(cell)));
         document.getElementById('iterations').innerText = ++iterationCounter
     }
 </script>
