@@ -103,7 +103,7 @@
 
         // ctx.fillRect(cell.x * scale, cell.y * scale, scale, scale);
         ctx.beginPath();
-        ctx.arc(cell.x * scale, cell.y * scale, scale / 2, 0, 2 * Math.PI);
+        ctx.arc(cell.x * scale - scale/2, cell.y * scale - scale/2, scale / 2, 0, 2 * Math.PI);
         ctx.fill();
     }
 
