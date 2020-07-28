@@ -6,17 +6,21 @@
     <style type="text/css">
         body {
             text-align: center;
+            font-family: "Andale Mono";
         }
 
         .title {
             margin: 30px;
-            font-family: "Andale Mono";
         }
 
+        .iterations {
+            margin-bottom: 35px;
+        }
     </style>
 </head>
 <body onload="start()">
 <h1 class="title">Conway's Game Of Life</h1>
+<h5 class="iterations">Iterations: <span id="iterations"></span></h5>
 <canvas id="canvas" width="500" height="500"></canvas>
 <script type="text/javascript">
     const canvas = document.getElementById('canvas');
@@ -25,6 +29,7 @@
     const percentage = getParameterByName('percentage', 15);
     const interval = getParameterByName('interval', 125);
     const aliveTrackLength = getParameterByName('aliveTrackLength', 5);
+    let iterationCounter = 0;
     const canvasWidth = canvas.width / scale;
     const canvasHeight = canvas.height / scale;
 
@@ -60,7 +65,7 @@
     }
 
     function isCellAlive(x, y) {
-        if (x < 0 || y < 0 || x > canvasWidth - 1 || y > canvasHeight - 1) {
+        if (x < 0 || y < 0 || x > canvasWidth || y > canvasHeight) {
             return false
         }
         return cells[y][x].alive;
@@ -129,6 +134,7 @@
     function iterate() {
         cells.forEach(row => row.forEach(cell => checkCellConditions(cell)));
         cells.forEach(row => row.forEach(cell => updateGenerationAndPrint(cell)));
+        document.getElementById('iterations').innerText = ++iterationCounter
     }
 </script>
 </body>
