@@ -65,7 +65,7 @@
     }
 
     function isCellAlive(x, y) {
-        if (x < 0 || y < 0 || x > canvasWidth || y > canvasHeight) {
+        if (x < 0 || y < 0 || x > canvasWidth - 1 || y > canvasHeight - 1) {
             return false
         }
         return cells[y][x].alive;
