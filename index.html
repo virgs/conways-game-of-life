@@ -87,7 +87,10 @@
             }
         }
 
-        ctx.fillRect(cell.x * scale, cell.y * scale, scale, scale);
+        // ctx.fillRect(cell.x * scale, cell.y * scale, scale, scale);
+        ctx.beginPath();
+        ctx.arc(cell.x * scale, cell.y * scale, scale / 2, 0, 2 * Math.PI);
+        ctx.fill();
 
         for (let i = aliveTrackLength - 1; i >= 1; --i) {
             cell.aliveTrack[i] = cell.aliveTrack[i - 1];
