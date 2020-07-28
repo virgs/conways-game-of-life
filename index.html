@@ -10,6 +10,7 @@
 
         .title {
             margin: 30px;
+            font-family: "Andale Mono";
         }
 
     </style>
@@ -71,13 +72,17 @@
         if (cell.alive) {
             ctx.fillStyle = 'rgba(128, 0, 0, 1)';
         } else {
-            ctx.fillStyle = 'rgba(128, 0, 0, 0)';
-            let trackAlpha = .75;
-            for (let i = 0; i < aliveTrackLength; ++i) {
-                trackAlpha *= 0.5;
-                if (cell.aliveTrack[i]) {
-                    ctx.fillStyle = `rgba(128, 0, 0, ${trackAlpha})`;
-                    break;
+            if (cell.nextGeneration) {
+                ctx.fillStyle = 'rgba(256, 0, 0, 1)';
+            } else {
+                ctx.fillStyle = 'rgba(128, 0, 0, 0)';
+                let trackAlpha = .75;
+                for (let i = 0; i < aliveTrackLength; ++i) {
+                    trackAlpha *= 0.5;
+                    if (cell.aliveTrack[i]) {
+                        ctx.fillStyle = `rgba(128, 0, 0, ${trackAlpha})`;
+                        break;
+                    }
                 }
             }
         }
@@ -105,6 +110,9 @@
         aliveNeighborsCount += isCellAlive(cell.x + 1, cell.y + 0) ? 1 : 0;
         aliveNeighborsCount += isCellAlive(cell.x + 1, cell.y + 1) ? 1 : 0;
 
+        // Any dead cell with three live neighbours becomes a live cell.
+        // Any live cell with two or three live neighbours survives.
+        // All other live cells die in the next generation. Similarly, all other dead cells stay dead.
         cell.nextGeneration = false;
         if (!cell.alive) {
             if (aliveNeighborsCount === 3) {
